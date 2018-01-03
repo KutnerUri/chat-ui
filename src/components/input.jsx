@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Message from '../models/message'
+import messagesRepository from '../repositories/messagesRepository'
 
 export default class InputBox extends React.Component {
 	constructor(props){
@@ -26,11 +27,10 @@ export default class InputBox extends React.Component {
 	handleSubmit(e){
 		if(!this.isValid()) return;
 
-		var msg = new Message(this.state.username, this.state.value);
+		const msg = new Message(this.state.username, this.state.value);
+		messagesRepository.add(msg);
 
 		this.clearState();
-
-		this.props.onMessageCreated(msg);
 	}
 
 	handleKeyPress(e){

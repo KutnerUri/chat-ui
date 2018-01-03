@@ -19,20 +19,6 @@ const Logo = styled.div`
 
 
 class App extends React.PureComponent {
-	constructor(props){
-		super(props);
-
-		this.state = { messages : [] };
-		
-		this.handelMessageCreated = this.handelMessageCreated.bind(this);
-	}
-
-	handelMessageCreated(messageContent) {
-		this.setState((prevState, props) => ({
-			messages: prevState.messages.concat([messageContent])
-		}));
-	}
-
   	render() {
 		return <div>
 			<Container className={'spotim-header'}>
@@ -47,10 +33,8 @@ class App extends React.PureComponent {
 			</Container>
 
 			<Container className={'spotim-chat'}>
-				<MessagesBoard messages={this.state.messages} />
-
-
-				<InputBox onMessageCreated={this.handelMessageCreated}/>
+				<MessagesBoard/>
+				<InputBox />
 			</Container>
 		</div>
 	}
