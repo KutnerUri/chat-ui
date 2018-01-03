@@ -6,30 +6,54 @@ import logo from '../assets/spotim-logo.jpg'
 import {Container, Image} from 'semantic-ui-react'
 import styled from 'styled-components';
 
+import InputBox from "./input";
+import MessagesBoard from "./messagesBoard";
+
 const Logo = styled.div`
       img{
         margin-left: auto;
         margin-right: auto;
         margin-top: 15px;      
       }
-      
 `;
 
 
 class App extends React.PureComponent {
-  render() {
-    return <Container className={'spotim-header'}>
-      <div className={'spotim-title'}>
-        Welcome to the Spot.IM Chat app
-      </div>
-      <div>
-        <Logo>
-          <Image size={'tiny'} src={logo}/>
-        </Logo>
+	constructor(props){
+		super(props);
 
-      </div>
-    </Container>
-  }
+		this.state = { messages : [] };
+		
+		this.handelMessageCreated = this.handelMessageCreated.bind(this);
+	}
+
+	handelMessageCreated(messageContent) {
+		this.setState((prevState, props) => ({
+			messages: prevState.messages.concat([messageContent])
+		}));
+	}
+
+  	render() {
+		return <div>
+			<Container className={'spotim-header'}>
+				<div className={'spotim-title'}>
+					Welcome to the Spot.IM Chat app
+				</div>
+				<div>
+					<Logo>
+					<Image size={'tiny'} src={logo}/>
+					</Logo>
+				</div>
+			</Container>
+
+			<Container className={'spotim-chat'}>
+				<MessagesBoard messages={this.state.messages} />
+
+
+				<InputBox onMessageCreated={this.handelMessageCreated}/>
+			</Container>
+		</div>
+	}
 }
 
 export default App;

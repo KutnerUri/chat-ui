@@ -14,8 +14,39 @@ body {
   }
 }
 
+.messages-board {
+	padding: 1px;
+	border: 1px solid black; 
+	border-radius: 5px;
 
+	&:empty {
+		display: none;
+	}
 
+	.message {
+		margin-bottom: 6px;
+		.username {
+			font-size: 12px;
+			margin-bottom: -2px;
+		}
 
+		.userimage {
+			height: 30px;
+			margin-right: 3px;
+			vertical-align: text-bottom;
+		}
 
-
+		.content {
+			background-color: rgb(0, 132, 255);
+			color: rgb(255, 255, 255);
+			
+			border-radius: 20.8px;
+			line-height: 20px;
+			font-size:16px;
+			
+			margin-bottom: 1px;
+			padding: 6px 12px;
+			max-width: 60%;
+		}
+	}
+}
