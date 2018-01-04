@@ -6,8 +6,9 @@ import messagesRepository from '../repositories/messagesRepository'
 export default class MessagesBoard extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = { messages: [] };
 		
+		this.state = { messages: messagesRepository.get() };
+
 		const handleRepositoryChange = this.handleRepositoryChange.bind(this);
 		messagesRepository.subscribe(handleRepositoryChange);
 
@@ -19,7 +20,7 @@ export default class MessagesBoard extends React.Component {
 
 	render(){
 		return (
-			<div class="messages-board">
+			<div className="messages-board">
 				{ this.state.messages.map(msg =>
 					<MessageView key={msg.id} message={msg} />
 				)}
@@ -37,11 +38,11 @@ class MessageView extends React.Component {
 
 	render(){
 		return (
-			<div class="message">
-				<div class="username">{this.props.message.username}:</div>
+			<div className="message">
+				<div className="username">{this.props.message.username}:</div>
 
-				<img class="userimage" src={this.state.userimage} />
-				<span class="content">{this.props.message.content}</span>
+				<img className="userimage" src={this.state.userimage} />
+				<span className="content">{this.props.message.content}</span>
 			</div>
 		);
 	}
