@@ -20,7 +20,7 @@ export class UserRepository extends RepositoryBase {
 		this._state.loggedinUser = username;
 
 		this.persisteState();
-		this.updateSubsribers();
+		this.updateSubscribers();
 	}
 
 	getLoggedinUser(){

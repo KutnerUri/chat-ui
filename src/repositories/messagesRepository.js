@@ -61,7 +61,7 @@ export class MessagesRepository extends RepositoryBase {
 		this._existingMessagesIds[message.id] = true;
 
 		this.persisteState();
-		this.updateSubsribers();
+		this.updateSubscribers();
 	}
 }
 

@@ -1,4 +1,4 @@
-class RepositoryBase {
+export default class RepositoryBase {
 	constructor(name){
 		this._storageName = name;
 
@@ -11,18 +11,22 @@ class RepositoryBase {
 		this._subscribers.push(handler);
 	}
 
-	updateSubsribers() {
+	
+	updateSubscribers() {
 		this._subscribers.forEach(sub => sub());
 	}
 
 
 	//persistence:
 	persisteState() {
+		if(!window.localStorage) return;
+
 		const memento = this.createMemento();
 		window.localStorage[this._storageName] = JSON.stringify(memento);
 	}
 
 	restorePersistence() {
+		if(!window.localStorage) return;
 		if(!window.localStorage.hasOwnProperty(this._storageName)) return;
 		
 		const memento = JSON.parse(window.localStorage[this._storageName]);
@@ -37,5 +41,3 @@ class RepositoryBase {
 		throw new Error("should implement createMemento at inheriting class");
 	}
 }
-
-export default RepositoryBase;
