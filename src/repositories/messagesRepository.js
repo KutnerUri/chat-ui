@@ -1,61 +1,37 @@
-function MessagesRepository() {
-	var _cache = [];
-	var _subscribers = [];
-	const _storage = window.localStorage;
+import RepositoryBase from './repositoryBase';
 
-	this.subscribe = subscribe;
-	this.add = add;
-	this.get = get;
+export class MessagesRepository extends RepositoryBase {
+	constructor() {
+		super("messagesRepository");
+		this.restorePersistence();
+		this._state = [];
 
-	function ctor(){
-		restorePersistence();
-	}
-	ctor();
-
-	function add(message) {
-		_cache.push(message);
-		persisteState();
-
-		updateAll();
+		this.restorePersistence();
 	}
 
-	function get(params) {
-		return _cache.concat([]);
+	add(message) {
+		this._state.push(message);
+
+		this.persisteState();
+		this.updateSubsribers();
 	}
 
-	function subscribe(onChange){
-		_subscribers.push(onChange);
+	get() {
+		return this._state.concat([]);
 	}
 
-	function updateAll() {
-		_subscribers.forEach(sub => sub(get()));
-	}
-
-	/** persistence: **/
-	function persisteState() {
-		const memento = createMemento();
-		_storage.messagesRepository = JSON.stringify(memento);
-	}
-
-	function restorePersistence() {
-		if(!_storage.hasOwnProperty("messagesRepository")) return;
-		
-		const memento = JSON.parse(_storage.messagesRepository);
-		restoreMemento(memento);
-	}
-
-	function restoreMemento(memento){
-		if(memento.messagesList) {
-			_cache = memento.messagesList;
+	restoreFromMemento(memento) {
+		if (memento.messagesList) {
+			this._state = memento.messagesList;
 		}
 	}
 
-	function createMemento() {
+	createMemento() {
 		return {
-			messagesList: _cache
+			messagesList: this._state
 		};
 	}
-	/** end persistence: **/
 }
 
-export default new MessagesRepository();
+var instance = new MessagesRepository();
+export default instance;

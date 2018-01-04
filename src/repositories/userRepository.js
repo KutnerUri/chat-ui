@@ -1,69 +1,70 @@
-function UserRepository() {
-	this.getUserAvatar = getUserAvatar;
+import RepositoryBase from './repositoryBase';
 
-	var _cache = {};
-	const _storage = window.localStorage;
-	const _avatars = [
-		"https://spotim-demo-chat-server.herokuapp.com/avatars/001-snorlax.png",
-		"https://spotim-demo-chat-server.herokuapp.com/avatars/002-psyduck.png",
-		"https://spotim-demo-chat-server.herokuapp.com/avatars/003-pikachu.png",
-		"https://spotim-demo-chat-server.herokuapp.com/avatars/004-jigglypuff.png",
-		"https://spotim-demo-chat-server.herokuapp.com/avatars/005-bullbasaur.png",
-	];
+const _avatars = [
+	"https://spotim-demo-chat-server.herokuapp.com/avatars/001-snorlax.png",
+	"https://spotim-demo-chat-server.herokuapp.com/avatars/002-psyduck.png",
+	"https://spotim-demo-chat-server.herokuapp.com/avatars/003-pikachu.png",
+	"https://spotim-demo-chat-server.herokuapp.com/avatars/004-jigglypuff.png",
+	"https://spotim-demo-chat-server.herokuapp.com/avatars/005-bullbasaur.png",
+];
 
-	function ctor(){
-		restorePersistence();
+export class UserRepository extends RepositoryBase {
+	constructor(){
+		super("userRepository");
+		this._state = {};
+
+		this.restorePersistence();
 	}
-	ctor();
 
-	function getUserAvatar(userName) {
-		if(_cache.hasOwnProperty(userName)){
-			return _cache[userName];
+	get(){
+		return this.getLoggedinUser();
+	}
+
+	setLoggedinUser(username){
+		this._state.loggedinUser = username;
+
+		this.persisteState();
+		this.updateSubsribers();
+	}
+
+	getLoggedinUser(){
+		return this._state.loggedinUser;
+	}
+
+	getUserAvatar(userName) {
+		if(this._state.hasOwnProperty(userName)){
+			return this._state[userName];
 		}
 
-		var avatar = getRandomAvatar();
-		assignUserAvatar(userName, avatar);
+		var avatar = this.selectRandomAvatar();
+		this.assignUserAvatar(userName, avatar);
 
 		return avatar;
 	}
 
-	function assignUserAvatar(userName, avatar) {
-		_cache[userName] = avatar;
-		persisteState();
+	assignUserAvatar(userName, avatar) {
+		this._state[userName] = avatar;
+		this.persisteState();
 	}
 
-	function getRandomAvatar() {
+	selectRandomAvatar() {
 		const randomAvatarIdx = Math.floor(Math.random() * _avatars.length);
 		
 		return _avatars[randomAvatarIdx];
 	}
 
-	/** persistence: **/
-	function persisteState() {
-		const memento = createMemento();
-		_storage.userRepository = JSON.stringify(memento);
+	restoreFromMemento(memento){
+		if(memento.userAvatars)		this._state 				= memento.userAvatars;
+		if(memento.loggedinUser)	this._state.loggedinUser	= memento.loggedinUser;
 	}
 
-	function restorePersistence() {
-		if(!_storage.hasOwnProperty("userRepository")) return;
-		
-		const memento = JSON.parse(_storage.userRepository);
-		restoreMemento(memento);
-	}
-
-	function restoreMemento(memento){
-		if(memento.userAvatars) {
-			_cache = memento.userAvatars;
-		}
-	}
-
-	function createMemento() {
+	createMemento() {
 		return {
-			userAvatars: _cache
+			userAvatars: this._state,
+			loggedinUser: this._state.loggedinUser
 		};
 	}
-	/** end persistence: **/
 }
 
-var repositoryInstance = new UserRepository();
-export default repositoryInstance;
+const instance = new UserRepository();
+export default instance;
