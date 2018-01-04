@@ -7,13 +7,13 @@ export class InputRepository extends RepositoryBase {
 		this.restorePersistence();
 	}
 
-	set(input){
+	setInput(input){
 		this.state = input;
 
 		this.persisteState();
 	}
 
-	get(){
+	getInput(){
 		return this.state;
 	}
 

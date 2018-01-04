@@ -5,19 +5,25 @@ export class MessagesRepository extends RepositoryBase {
 		super("messagesRepository");
 		this.restorePersistence();
 		this._state = [];
+		this._messagesToSend = [];
 
 		this.restorePersistence();
 	}
 
-	add(message) {
+	addUserMessage(message) {
 		this._state.push(message);
+		this._messagesToSend.push(message);
 
 		this.persisteState();
 		this.updateSubsribers();
 	}
 
-	get() {
+	getAll() {
 		return this._state.concat([]);
+	}
+
+	shiftUnsentMessage(){
+		return this._messagesToSend.shift();
 	}
 
 	restoreFromMemento(memento) {

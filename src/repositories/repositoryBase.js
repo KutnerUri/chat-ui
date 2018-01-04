@@ -1,37 +1,31 @@
 class RepositoryBase {
 	constructor(name){
-		this.storageName = name;
+		this._storageName = name;
 
-		this.subscribers = [];
+		this._subscribers = [];
 	}
 
-	get(){
-		throw new Error("should implement .get at inheriting class");		
-	}
 
 	//pub sub:
 	subscribe(handler){
-		this.subscribers.push(handler);
+		this._subscribers.push(handler);
 	}
 
 	updateSubsribers() {
-		const data = this.get();
-
-		this.subscribers
-			.forEach(sub => sub(data));
+		this._subscribers.forEach(sub => sub());
 	}
 
 
 	//persistence:
 	persisteState() {
 		const memento = this.createMemento();
-		window.localStorage[this.storageName] = JSON.stringify(memento);
+		window.localStorage[this._storageName] = JSON.stringify(memento);
 	}
 
 	restorePersistence() {
-		if(!window.localStorage.hasOwnProperty(this.storageName)) return;
+		if(!window.localStorage.hasOwnProperty(this._storageName)) return;
 		
-		const memento = JSON.parse(window.localStorage[this.storageName]);
+		const memento = JSON.parse(window.localStorage[this._storageName]);
 		this.restoreFromMemento(memento);
 	}
 

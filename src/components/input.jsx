@@ -11,7 +11,7 @@ export default class InputBox extends React.Component {
 		super(props);
 
 		var username = userRepository.getLoggedinUser() || "";
-		var content = inputRepository.get() || "";
+		var content = inputRepository.getInput() || "";
 
 		this.state = { content: content, username: username };
 
@@ -27,7 +27,7 @@ export default class InputBox extends React.Component {
 		var content = e.target.value;
 		this.setState({ content: content });
 
-		inputRepository.set(content);
+		inputRepository.setInput(content);
 	}
 
 	handleUsernameChange(e){
@@ -43,7 +43,7 @@ export default class InputBox extends React.Component {
 		const username = this.state.username.trim();
 		const content = this.state.content.trim();
 		const msg = new Message(username, content);
-		messagesRepository.add(msg);
+		messagesRepository.addUserMessage(msg);
 
 		this.clearState();
 	}

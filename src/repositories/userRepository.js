@@ -5,7 +5,7 @@ const _avatars = [
 	"https://spotim-demo-chat-server.herokuapp.com/avatars/002-psyduck.png",
 	"https://spotim-demo-chat-server.herokuapp.com/avatars/003-pikachu.png",
 	"https://spotim-demo-chat-server.herokuapp.com/avatars/004-jigglypuff.png",
-	"https://spotim-demo-chat-server.herokuapp.com/avatars/005-bullbasaur.png",
+	"https:\//spotim-demo-chat-server.herokuapp.com/avatars/005-bullbasaur.png",
 ];
 
 export class UserRepository extends RepositoryBase {
@@ -14,10 +14,6 @@ export class UserRepository extends RepositoryBase {
 		this._state = {};
 
 		this.restorePersistence();
-	}
-
-	get(){
-		return this.getLoggedinUser();
 	}
 
 	setLoggedinUser(username){

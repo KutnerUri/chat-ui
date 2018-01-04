@@ -6,14 +6,15 @@ export default class MessagesBoard extends React.Component {
 	constructor(props){
 		super(props);
 		
-		this.state = { messages: messagesRepository.get() };
+		this.state = { messages: messagesRepository.getAll() };
 
 		const handleRepositoryChange = this.handleRepositoryChange.bind(this);
 		messagesRepository.subscribe(handleRepositoryChange);
 
 	}
 
-	handleRepositoryChange(messagesList){
+	handleRepositoryChange(){
+		const messagesList = messagesRepository.getAll();
 		this.setState({ messages: messagesList });
 	}
 

@@ -14,7 +14,9 @@ export default class MessageComponent extends React.Component {
 		userRepository.subscribe(handler);
 	}
 
-	handlerCurrentUserChange(newUsername){
+	handlerCurrentUserChange(){
+		const newUsername = userRepository.getLoggedinUser();
+
 		this.setState({
 			isCurrentUser: this.props.message.username === newUsername
 		})
@@ -28,7 +30,7 @@ export default class MessageComponent extends React.Component {
 				<div className="username">{this.props.message.username}:</div>
 
 				<img className="userimage" src={this.state.userimage} />
-				<span className="content">{this.props.message.content}</span>
+				<span className="content">{this.props.message.text}</span>
 			</div>
 		);
 	}
