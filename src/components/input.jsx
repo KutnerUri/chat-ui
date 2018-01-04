@@ -65,9 +65,9 @@ export default class InputBox extends React.Component {
 	render() {
 		return (
 			<div className="input-box">
-				<input type="text" value={this.state.username} onChange={this.handleUsernameChange}/>
-				<input type="text" value={this.state.content} onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
-				<button disabled={!this.isValid()} onClick={this.handleSubmit}>add</button>
+				<input className="user-name" type="text" value={this.state.username} onChange={this.handleUsernameChange}/>
+				<input className="text" type="text" value={this.state.content} onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
+				<button class="submit" disabled={!this.isValid()} onClick={this.handleSubmit}>add</button>
 			</div>
 		);
 	}

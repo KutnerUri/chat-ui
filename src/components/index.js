@@ -20,7 +20,7 @@ const Logo = styled.div`
 
 class App extends React.PureComponent {
   	render() {
-		return <div>
+		return <div className="spotim-chat-app">
 			<Container className={'spotim-header'}>
 				<div className={'spotim-title'}>
 					Welcome to the Spot.IM Chat app
@@ -32,10 +32,8 @@ class App extends React.PureComponent {
 				</div>
 			</Container>
 
-			<Container className={'spotim-chat'}>
-				<MessagesBoard/>
-				<InputBox />
-			</Container>
+			<MessagesBoard/>
+			<InputBox />
 		</div>
 	}
 }

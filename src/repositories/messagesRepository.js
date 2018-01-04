@@ -3,7 +3,6 @@ import RepositoryBase from './repositoryBase';
 export class MessagesRepository extends RepositoryBase {
 	constructor() {
 		super("messagesRepository");
-		this.restorePersistence();
 		this._state = [];
 		this._messagesToSend = [];
 		this._existingMessagesIds = {};
