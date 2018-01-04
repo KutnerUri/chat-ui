@@ -8,7 +8,7 @@ const SERVER_ADDR = "https://spotim-demo-chat-server.herokuapp.com";
 
 export default class ServerSocket {
 	constructor(){
-		messagesRepository.subscribe(this.handelNewMessages.bind(this));
+		messagesRepository.subscribe(this.handleLocalMessages.bind(this));
 	}
 
 	start(){
@@ -24,12 +24,17 @@ export default class ServerSocket {
 			console.log("disconnected from chat server!");
 		});
 		
-		this._socket.on(CHAT_EVENT, function(msgDto){
-			console.log("received message", msgDto);
-		});		
+		this._socket.on(CHAT_EVENT, this.handleExternalMessages.bind(this));
 	}
 
-	handelNewMessages() {
+	handleExternalMessages(msgDto) {
+		console.log("received message", msgDto);
+
+		var msg = dtoToMessage(msgDto);
+		messagesRepository.addExternalMessage(msg);
+	}
+
+	handleLocalMessages() {
 		this.sendAllAvailable();
 	}
 
@@ -56,12 +61,15 @@ function messageToDo(message) {
 	return {
 		avatar	: userAvatar,
 		username: message.username,
-		text	: message.text
+		text	: message.text,
+		id		: message.id
 	};
 }
 
 function dtoToMessage(dto) {
-	var msg = new Message(dto.username, dto.text);
+	var msg = new Message(dto.username, dto.text, dto.id);
+	msg.id = dto.id;
+
 	userRepository.assignUserAvatar(dto.username, dto.avatar);
 
 	return msg;

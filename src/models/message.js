@@ -1,8 +1,8 @@
 export default class Message {
-	constructor(username, text){
+	constructor(username, text, id){
 		this.username = username;
 		this.text = text;
-		this.id = generateUniqueId();
+		this.id = id || generateUniqueId();
 
 		function generateUniqueId(){
 			var t = new Date().getTime();
